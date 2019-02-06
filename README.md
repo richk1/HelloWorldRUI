@@ -25,14 +25,14 @@ yet say I have a firm understanding of it all, even all the parts used in this
 simple example. This code works, but I wouldn't be at all surprised if someone
 more experienced could point out at least a few 'bad' things in it.
 
-(I think my biggest problem was getting the bindings to work. And that wasn't
-working because I hadn't been using a compatible version of the Splat 
-service locater code in my app.xaml.cs file. I had tried using different versions
-of that line that I copied from various documentation sources/examples, but not 
-evidently ones that were in sync with the rest of my code. The sample that
-finally solved my problem was one of the two buried in the ReactvieUI source
-code itself - ReactiveDemo. This is the code the ReactiveUI 'Getting Started' 
-page currently walks you through.)
+(My biggest problem was getting the bindings to work. I think that was because 
+I was using a version of the Splat service locater code in my app.xaml.cs file 
+that was incompatible with the rest of my code. I had tried using 
+different versions of that line that I copied from various documentation 
+sources/examples, but not evidently ones that were in sync with the rest of my 
+code. The sample that finally solved my problem was one of the two buried in the 
+ReactvieUI source code itself - ReactiveDemo. This is the code the ReactiveUI 
+'Getting Started' page currently walks you through.)
 
 ----
 ## This Example
