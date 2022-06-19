@@ -269,11 +269,11 @@ ReactiveUI Project
 They're updating their website [~1/20/19], so some of these links may break.
 
 Links:
-* Main Website: https://reactiveui.net/
-* API: https://reactiveui.net/api/
-* GitHub: https://github.com/reactiveui/ReactiveUI
+* Main Website: [https://reactiveui.net/](https://reactiveui.net/)
+* API: [https://reactiveui.net/api/](https://reactiveui.net/api/)
+* GitHub: [https://github.com/reactiveui/ReactiveUI](https://github.com/reactiveui/ReactiveUI)
 * Getting Started example - ReactiveDemo.sln:
-   * master: https://github.com/reactiveui/ReactiveUI/tree/master/samples/getting-started
+   * master: [https://github.com/reactiveui/ReactiveUI/tree/master/samples/getting-started](https://github.com/reactiveui/ReactiveUI/tree/master/samples/getting-started)
    * snapshot of the version I looked at (in case it changes): [0a8d8fb4afa90fc839026a66d1193fccdfb44938](https://github.com/reactiveui/ReactiveUI/tree/0a8d8fb4afa90fc839026a66d1193fccdfb44938/samples/getting-started)
 
 ### ReactiveUI.Fody:
