@@ -2,46 +2,16 @@
 An example WPF HelloWorld program written using the ReactiveUI framework.
 
 1. Original: 3 February 2019<br>
-2. Updated: May 2021
-  * Made a few small updates, but really didn't change much (code or comments) at all.
-    * My level of proficiency with ReactiveUI hasn't increased much since I originally posted this (I've been 
-      doing other things), so I've left most of my original commentary unchanged. My observations may well
-      be outdated.
-  * Updated my Visual Studio Project to use current Frameworks and checked that everything still works:
-    * Visual Studio 2019 Community Edition (regular and preview)
-    * SDK project style
-    * DotNet 6.0 (preview) 
-  * Updated this Readme. 
-      * Added/fixed a few hyperlinks
+2. Latest Update: Dec 2023
+   * Now using DotNet 8 / C# 12
+   * Mostly minor tweaks to syntax
+   * My level of proficiency with ReactiveUI hasn't increased much since I originally posted this (I've been doing other things), so I've left most of my original commentary unchanged. My observations may well be outdated.
+   * Added a copy of the same project written without using ReactiveUI for comparison.
 
 ## Motivation
-I had an unexpectedly difficult time figuring out how to get a simple starter
-program working using ReactiveUI. I found some documentation sources useful, and
-others confusing, or lacking SIMPLE examples for the current software versions.
+I'm just a hobbiest programmer these days, and thought I'd give ReactiveUI a spin.  I had an unexpectedly difficult time figuring out how to get a simple starter program working using ReactiveUI. I found some documentation sources useful, and others confusing, or lacking SIMPLE examples for the current software versions.  So, once I figured out some of the basics, I thought I'd post my working example here on github. It's just a slightly fancy Hello World that makes use of a few ReactiveUI components.
 
-The current ReactiveUI Getting Started page is pretty decent, but either I missed 
-it when I started, or it wasn't as good then and has improved since. I remember 
-trying to figure stuff out from the DynamicTrader program, which is a wonder 
-to behold, but I found myself hopelessly confused by all the advanced stuff going 
-on in there.
-
-So, I thought I'd post my working example here on github. It's even more basic
-than the 'Getting Started' example. No network calls or even any input. Just
-a slightly fancy Hello World that does make use of a few ReactiveUI components.
-
-I'm still learning a lot of this stuff (C#, ReactiveX, ReactiveUI), so I can't
-yet say I have a firm understanding of it all, even all the parts used in this
-simple example. This code works, but I wouldn't be at all surprised if someone
-more experienced could point out at least a few 'bad' things in it.
-
-(My biggest problem was getting the bindings to work. I think that was because 
-I was using a version of the Splat service locater code in my app.xaml.cs file 
-that was incompatible with the rest of my code. I had tried using 
-different versions of that line that I copied from various documentation 
-sources/examples, but not evidently ones that were in sync with the rest of my 
-code. The sample that finally solved my problem was one of the two buried in the 
-ReactvieUI source code itself - ReactiveDemo. This is the code the ReactiveUI 
-'Getting Started' page currently walks you through.)
+(My biggest problem was getting the bindings to work. I think that was because I was using a version of the Splat service locater code in my app.xaml.cs file that was incompatible with the rest of my code. I had tried using different versions of that line that I copied from various documentation sources/examples, but not evidently ones that were in sync with the rest of my code. The sample that finally solved my problem was one of the two buried in the ReactvieUI source code itself - ReactiveDemo. This is the code the ReactiveUI 'Getting Started' page currently walks you through.)
 
 ----
 ## This Example
@@ -57,7 +27,7 @@ different languages.
 
 ----
 ### Development Environment
-I'm currently using Visual Studio 2019 Community Edition. I'm mostly using the preview version since I'm trying out dotNet 6, but I have also used dotNet 5 with the non-preview version.
+I'm currently using Visual Studio 2022 Community Edition preview. 
 
 ### Dependencies
 You'll need to install the following NuGet Packages into your environment. They'll
@@ -66,8 +36,6 @@ in-turn load others that they require.
 * NuGet Packges
     * ReactiveUI.WPF
     * ReactiveUI.Fody
-
-When I last committed this, the version numbers of those two were both 13.2.18 from April 2021. 
 
 (Note: I perhaps complicated the example a bit by using Fody, but its pretty 
 straitforward to use, has given me very little trouble, and makes the code look 
@@ -97,16 +65,8 @@ public App()
 }
 ````
 Note 
-* the Splat "Locater..." line magically connects 
-the Views and ViewModels. I've seen various other incarnations of this line, but 
-this is the one that worked for me.
-* Editorial Warning: This line of code is apparently an example of the 'service 
-locater' design pattern, which amongst the computer science 'in crowd' is almost 
-as uncool as using 'goto' statements. 
-(You'll find muted apologies for using it in various ReactiveUI documentation.) 
-I'm not sure if there's a good alternative to this that could be used, 
-but I expect the ReactiveUI developers will switch to something else if they 
-can find or think up something better.
+* The Splat "Locater..." line magically connects the Views and ViewModels. I've seen various other incarnations of this line, but this is the one that worked for me.
+* Splat is ReactiveUI's built-in dependency inversion container. When I first tried ReactiveUI I was unfamiliar with the concepts of Dependency Injection/Inversion of Control and the various frameworks that help implement them. Apparently ReactiveUI supports overriding Splat with other popular DI implementations, but I myself haven't tried that yet.
 
 #### File: MainWindow.xaml
 
@@ -224,7 +184,9 @@ namespace HelloWorldRUI
     public class AppViewModel : ReactiveObject
     {
         [Reactive] public string Greeting { get; set; } = "Greeting";
-        public extern string Lang { [ObservableAsProperty] get; }
+        [ObservableAsProperty] public string Lang { get; }
+        private readonly int maxCount = 100;
+        private readonly int dwellDuration = 2;
 
         public AppViewModel()
         {
@@ -238,8 +200,8 @@ namespace HelloWorldRUI
             string[] keys = Greetings.Keys.ToArray();
 
             // select next language every 2 seconds (100 times)
-            Observable.Interval(TimeSpan.FromSeconds(2))
-                .Take(100)
+            Observable.Interval(TimeSpan.FromSeconds(dwellDuration))
+                .Take(maxCount)
                 .Select(_ => keys[(Array.IndexOf(keys, Lang) + 1) % keys.Length])
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .ToPropertyEx(this, x => x.Lang, "Language");
@@ -286,61 +248,35 @@ Links:
    * snapshot of the version I looked at (in case it changes): [0a8d8fb4afa90fc839026a66d1193fccdfb44938](https://github.com/reactiveui/ReactiveUI/tree/0a8d8fb4afa90fc839026a66d1193fccdfb44938/samples/getting-started)
 
 ### ReactiveUI.Fody:
-The project source code has been absorbed into the ReactiveUI GitHub repo, but I 
-haven't found the README file from the original repo in ReactiveUI. The original 
-project README has an example of how to use it.
+This was originally an independant project, but has since been absorbed into the ReactiveUI GitHub repo.
 
 Links:
 * ReactiveUI Page discussing Fody: https://www.reactiveui.net/docs/handbook/view-models/boilerplate-code
 * Current Source in ReactiveUI GitHub: 
     https://github.com/reactiveui/ReactiveUI/tree/master/src/ReactiveUI.Fody
 * Old GitHub project: https://github.com/kswoll/ReactiveUI.Fody
-* Readme.md: https://github.com/kswoll/ReactiveUI.Fody/blob/rxui7beta/Readme.md
 
 ### ReactiveX (C#)
-Reactive Extensions (ReactiveX) is a project which provides Reactive libraries 
-for a number of programming languages and platforms. One such supported combination 
-is C#/DotNet (aka the System.Reactive package). The base form of Reactive 
-programming has no direct support for Graphical User Interfaces (thats where 
-ReactiveUI comes in.) Its been around for quite a while, and there's some pretty 
-good documentation for it, though not necessarily all up to date for C#/DotNet. 
-However the older stuff is still VERY useful.
-(You may notice that some of the maintainers of dotnet/reactive are also the same 
-people supporting ReactiveUI)
+Reactive Extensions (ReactiveX) is a project which provides Reactive libraries for a number of programming languages and platforms. One such supported combination is C#/DotNet (aka the System.Reactive package). The base form of Reactive programming has no direct support for Graphical User Interfaces (that's where ReactiveUI comes in.) Its been around for quite a while, and there's some pretty good documentation for it, though not necessarily all up to date for C#/DotNet. However the older stuff is still VERY useful.
+(You may notice that over time there has been some significant overlap of the maintainers of dotnet/reactive and ReactiveUI)
 
 Links:
 * ReactiveX Website: http://reactivex.io/
 * Rx.NET aka dotnet/Reactive aka System.Reactive GitHub repo: 
     https://github.com/dotnet/reactive
-* Introduction to Rx online Book (~2012): 
+* Introduction to Rx online Book
     http://introtorx.com/Content/v1.0.10621.0/00_Foreword.html
+	The above link now redirects to https://introrx.com, which is most probably an updated version, or at least an updated presentation of the material originally written in 2012. (I haven't had time to look through the new info.)
 
 
 ### You, I and ReactiveUI (Book by Kent Boogaart, April 2018)
-At the time I'm writing this, this book is the only organized, well written, 
-reasonably complete reference/tutorial for ReactiveUI that I could find. I'm 
-still working my way through it, and I'm finding it very useful. (Thanks to the 
-author for making the effort to write and publish it!)
-
-The biggest shortcoming of the book, for me as a newcomer, was the way the sample
-code was organized. I found that it made it very difficult for me to observe and 
-emulate each example as a standalone application.
-
+At the time I'm writing this section (~2019), this book was (and perhaps still is) the only organized, well written, reasonably complete reference/tutorial for ReactiveUI that I could find. I'm still working my way through it, and I'm finding it very useful. (Thanks to the author for making the effort to write and publish it!) 
+The biggest shortcoming of the book, for me as a newcomer, was the way the sample code was organized. I found that it made it very difficult for me to observe and emulate each example as a standalone application.  
 I offer the following observations for my fellow noobs:<br>
-* The sample code is organized as one big project. The files for each example 
-(app files, MainWindow and View files, and ViewModel files), are spread 
-out far apart from one another, making for a bit of work when trying to 
-browse the files that belong to a single example.
-* The project makes use of an external WPF UI toolkit (MahApps.metro) 
-that I haven't found discussed in the text (as far as I've read). 
-* The service locator code used in the project's app.xaml.cs doesn't match 
-what I'm using in my HelloWorld (which I copied from ReactiveUI's 'getting 
-started' sample). In fact, I dont see a description of RegisterViewsForModels() 
-in the book. (Note: the book doesn't claim to describe all the APIs.) 
-Probably the way the book does it would work for me if I understood the service 
-locator API better.
-* (I haven't finished reading it all yet. I'm skipping around reading the parts 
-I think I need to get my code working.) 
+* The sample code is organized as one big project. I found this a bit awkward when trying to browse the source code, as the files for each example (app files, MainWindow and View files, and ViewModel files), are spread out far apart from one another, making for a bit of work when trying to view all the files that belong to a single example.
+* The project makes use of an external WPF UI toolkit (MahApps.metro) that I haven't found discussed in the text (as far as I've read). 
+* The service locator code used in the project's app.xaml.cs doesn't match what I'm using in my HelloWorld (which I copied from ReactiveUI's 'getting started' sample). In fact, I dont see a description of RegisterViewsForModels() in the book. (Note: the book doesn't claim to describe all the APIs.) Probably the way the book does it would work for me if I understood the service locator API better.
+* (I haven't finished reading it all yet. I'm skipping around reading the parts I think I need to get my code working.) 
 
 Links
 * Book GitHub repo: https://github.com/kentcb/YouIandReactiveUI
