@@ -1,9 +1,18 @@
 ﻿# HelloWorldRUI
 An example WPF HelloWorld program written using the ReactiveUI framework.
 
-Original: 3 February 2019<br>
-Updated: 5 February 2019
-
+1. Original: 3 February 2019<br>
+2. Updated: May 2021
+  * Made a few small updates, but really didn't change much (code or comments) at all.
+    * My level of proficiency with ReactiveUI hasn't increased much since I originally posted this (I've been 
+      doing other things), so I've left most of my original commentary unchanged. My observations may well
+      be outdated.
+  * Updated my Visual Studio Project to use current Frameworks and checked that everything still works:
+    * Visual Studio 2019 Community Edition (regular and preview)
+    * SDK project style
+    * DotNet 6.0 (preview) 
+  * Updated this Readme. 
+      * Added/fixed a few hyperlinks
 
 ## Motivation
 I had an unexpectedly difficult time figuring out how to get a simple starter
@@ -40,23 +49,25 @@ What it does: <br>
 Opens a Window that shows the greeting "Hello World", cycling between a few 
 different languages.
 
+<center>
+
+![](animation.gif)
+
+</center>
+
 ----
 ### Development Environment
-I'm using Visual Studio 2019 Enterprise Preview. I assume VS2017 Community Edition 
-would work just as well. I'll likely switch to VS2019 Community Edition when the 
-preview expires.
+I'm currently using Visual Studio 2019 Community Edition. I'm mostly using the preview version since I'm trying out dotNet 6, but I have also used dotNet 5 with the non-preview version.
 
 ### Dependencies
 You'll need to install the following NuGet Packages into your environment. They'll
 in-turn load others that they require.
 
 * NuGet Packges
-    * ReactiveUI.WPF - Version 9.9.5 (3 Feb 2019)
-    * ReactiveUI.Fody - Version 9.9.5 (3 Feb 2019)
+    * ReactiveUI.WPF
+    * ReactiveUI.Fody
 
-Look in the packages.config file to see a complete list of current 
-packages and version numbers. (Don't be surprised if the README doesn't stay up 
-to date with the actual repo :) 
+When I last committed this, the version numbers of those two were both 13.2.18 from April 2021. 
 
 (Note: I perhaps complicated the example a bit by using Fody, but its pretty 
 straitforward to use, has given me very little trouble, and makes the code look 
@@ -229,7 +240,7 @@ namespace HelloWorldRUI
             // select next language every 2 seconds (100 times)
             Observable.Interval(TimeSpan.FromSeconds(2))
                 .Take(100)
-                .Select(_ => keys[(Array.IndexOf(keys, Lang) + 1) % keys.Count()])
+                .Select(_ => keys[(Array.IndexOf(keys, Lang) + 1) % keys.Length])
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .ToPropertyEx(this, x => x.Lang, "Language");
 
@@ -266,14 +277,12 @@ width="25"/>
 ReactiveUI Project
 </h3>
 
-They're updating their website [~1/20/19], so some of these links may break.
-
 Links:
 * Main Website: https://reactiveui.net/
 * API: https://reactiveui.net/api/
 * GitHub: https://github.com/reactiveui/ReactiveUI
 * Getting Started example - ReactiveDemo.sln:
-   * master: https://github.com/reactiveui/ReactiveUI/tree/master/samples/getting-started
+   * master: https://github.com/reactiveui/ReactiveUI.Samples/tree/main/wpf/getting-started 
    * snapshot of the version I looked at (in case it changes): [0a8d8fb4afa90fc839026a66d1193fccdfb44938](https://github.com/reactiveui/ReactiveUI/tree/0a8d8fb4afa90fc839026a66d1193fccdfb44938/samples/getting-started)
 
 ### ReactiveUI.Fody:
@@ -282,6 +291,7 @@ haven't found the README file from the original repo in ReactiveUI. The original
 project README has an example of how to use it.
 
 Links:
+* ReactiveUI Page discussing Fody: https://www.reactiveui.net/docs/handbook/view-models/boilerplate-code
 * Current Source in ReactiveUI GitHub: 
     https://github.com/reactiveui/ReactiveUI/tree/master/src/ReactiveUI.Fody
 * Old GitHub project: https://github.com/kswoll/ReactiveUI.Fody
