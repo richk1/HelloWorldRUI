@@ -21,7 +21,7 @@ different languages.
 
 <center>
 
-![](animation.gif)
+![](https://cdn.jsdelivr.net/gh/richk1/HelloWorldRUI@master/Animation.gif)
 
 </center>
 
